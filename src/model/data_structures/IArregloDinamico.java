@@ -1,6 +1,6 @@
 package model.data_structures;
 
-public interface IArregloDinamico {
+public interface IArregloDinamico <T extends Comparable<T>>  {
 
 	/**
 	 * Retornar el numero de elementos maximo en el arreglo
@@ -26,7 +26,7 @@ public interface IArregloDinamico {
 	 * Caso Especial: Si el arreglo esta lleno debe aumentarse su capacidad, agregar el nuevo dato y deben quedar multiples casillas disponibles para futuros nuevos datos.
 	 * @param dato nuevo elemento
 	 */
-	public void agregar( String dato );
+	public void agregar( Integer dato );
 		
 	/**
 	 * Buscar un dato en el arreglo.
