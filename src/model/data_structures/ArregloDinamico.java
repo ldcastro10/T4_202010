@@ -1,77 +1,100 @@
 package model.data_structures;
 
-/**
- * 2019-01-23
- * Estructura de Datos Arreglo Dinamico de Strings.
- * El arreglo al llenarse (llegar a su maxima capacidad) debe aumentar su capacidad.
- * @author Fernando De la Rosa
- *
- */
-public class ArregloDinamico implements IArregloDinamico {
-		/**
-		 * Capacidad maxima del arreglo
-		 */
-        private int tamanoMax;
-		/**
-		 * Numero de elementos presentes en el arreglo (de forma compacta desde la posicion 0)
-		 */
-        private int tamanoAct;
-        /**
-         * Arreglo de elementos de tamaNo maximo
-         */
-        private String elementos[ ];
+import java.util.Random;
 
-        /**
-         * Construir un arreglo con la capacidad maxima inicial.
-         * @param max Capacidad maxima inicial
-         */
-		public ArregloDinamico( int max )
-        {
-               elementos = new String[max];
-               tamanoMax = max;
-               tamanoAct = 0;
-        }
-        
-		public void agregar( String dato )
-        {
-               if ( tamanoAct == tamanoMax )
-               {  // caso de arreglo lleno (aumentar tamaNo)
-                    tamanoMax = 2 * tamanoMax;
-                    String [ ] copia = elementos;
-                    elementos = new String[tamanoMax];
-                    for ( int i = 0; i < tamanoAct; i++)
-                    {
-                     	 elementos[i] = copia[i];
-                    } 
-            	    System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
-               }	
-               elementos[tamanoAct] = dato;
-               tamanoAct++;
-       }
+public class ArregloDinamico <T> implements IArregloDinamico <T> {
 
-		public int darCapacidad() {
-			return tamanoMax;
+	private int max;
+	private int act;
+	private T objetos [];
+	
+	public ArregloDinamico (int pMax) 
+	
+	{
+	max = pMax;
+	act = 0;
+	objetos = (T[]) new Object[pMax];
+	}
+	public int darCapacidad() {
+	
+		return max;
+	}
+
+	@Override
+	public int tamaño() {
+		return act;
+	}
+
+	@Override
+	public T get(int i) {
+		// TODO Auto-generated method stub
+		return objetos[i];
+	}
+
+	@Override
+	public void add(T dato) {
+		if(max == act)
+		{
+			max ++;
+			T[] temp = objetos;
+			objetos = (T[])new Object [max];
+			for(int i = 0;  i< act; i++)
+			{
+				objetos[i] = temp[i];
+			}
 		}
+		objetos[act] = dato;
+		act ++;
+		
+	}
 
-		public int darTamano() {
-			return tamanoAct;
+	@Override
+	public void delate(int pos) 
+	{
+		if(pos <0 || pos > act)
+		{
+			throw new ArrayIndexOutOfBoundsException(pos);
 		}
+		if(pos == act)
+		{
+			objetos[pos] = null;
+		}
+		else
+		{
+			for(int i = pos; pos <act - 1; i++)
+			{
+				objetos[i] = objetos[i+1];
+			}
+			objetos[act -1] = null;
+		}
+		act --;
+	}
 
-		public String darElemento(int i) {
-			// TODO implementar
-			return null;
-		}
+	@Override
+	public void intercambiar(int pos1, int pos2) {
+		T a = objetos[pos1];
+		T b = objetos[pos2];
+		objetos[pos1] = a;
+		objetos[pos2] = b;
+		
+	}
 
-		public String buscar(String dato) {
-			// TODO implementar
-			// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
-			return null;
-		}
+	@Override
+	public void asignar(int posicion, T dato) {
+		// TODO Auto-generated method stub
+		objetos[posicion] = dato;
+	}
 
-		public String eliminar(String dato) {
-			// TODO implementar
-			// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
-			return null;
+	@Override
+	public void shuffle() {
+		// TODO Auto-generated method stub
+		int n = act;
+		Random r = new Random();
+		for(int i = n-1; i > 0; i++)
+		{
+			int j = r.nextInt(i);
+			intercambiar(i, j);
 		}
+	}
 
 }
